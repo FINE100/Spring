@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- bean 등록하기 -->
+	<!-- 코드 변경없이 bean만 변경하면서 사용하면 됨. 컴파일 필요 없음. -->
+	<bean id="tv" class="com.yedam.spring.SamsungTV" />
+	
+	
+	<!-- bean 강제 주입 -->
+	
+	<!-- 1) 생성자를 통한 주입방식 -->
+	<!-- <bean id="td" class="com.yedam.spring.TVDisplay"> -->
+		<!-- name : 클래스 내에서 특정 변수이름, ref = "클래스 명", value="int or String"  -->
+		<!-- <constructor-arg name ="selectedtv" ref="tv" />  -->
+	<!-- <b</bean> -->
+	
+		<!-- 2) 메서드를 통한 주입방식 -->
+	<!-- <bean id="td" class="com.yedam.spring.TVDisplay"> -->
+	<!-- name : set필드명 , 필드명(첫글자를 강제로 소문자로) --> 
+	<!-- 	<property name="tV" ref="tv"/>
+	</bean>	--> 
+
+
+	<!-- anotation 스캔 등록 -->
+	<context:component-scan base-package="com.yedam.anotation"></context:component-scan>
+
+
+</beans>
