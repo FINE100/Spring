@@ -1,36 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" 
 "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+<log4j:configuration
+	xmlns:log4j="http://jakarta.apache.org/log4j/">
 
 	<!-- Appenders -->
-	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+	<appender name="console"
+		class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
-	
+
 	<!-- Application Loggers -->
 	<logger name="com.yedam.java">
 		<level value="info" />
 	</logger>
-	
+
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>
-	
+	<!-- 정보가 빈으로 잘 등록 되었는지 -->
 	<logger name="org.springframework.beans">
 		<level value="info" />
 	</logger>
-	
+
+	<!-- 컨테이너 정보가 잘 읽히는지 -->
 	<logger name="org.springframework.context">
 		<level value="info" />
 	</logger>
 
+	<!-- 경로가 잘 설정 되었는지 -->
 	<logger name="org.springframework.web">
 		<level value="info" />
+	</logger>
+
+
+	<!-- root 위에 집중 관리해야할 패키지 등록하면 됨 -->
+	
+	<!-- sql만 볼 수 있도록 -->
+	<logger name="jdbc.sqlonly">
+		<level value="info" />
+	</logger>
+
+	<!-- sql+ 소요된 시간 볼 수 있도록 -->
+	<logger name="jdbc.sqltiming">
+		<level value="info" />
+	</logger>
+
+	<!-- select 했을 때 반환 결과 (resultset) => 테이블 형태 -->
+	<logger name="jdbc.resultsettable">
+		<level value="info" />
+	</logger>
+
+	<logger name="jdbc.audit">	
+		<level value="warn" />
+	</logger>
+
+	<logger name="jdbc.resultset">
+		<level value="warn" />
 	</logger>
 
 	<!-- Root Logger -->
@@ -38,5 +68,5 @@
 		<priority value="warn" />
 		<appender-ref ref="console" />
 	</root>
-	
+
 </log4j:configuration>

@@ -4,12 +4,12 @@ import lombok.Data;
 
 @Data
 public class EmpVO {
-		String employee_id;   
-	    String first_name;
-	    String last_name;
+		String employeeId;   
+	    String firstName;
+	    String lastName;
 	    String email;
-	    String hire_date; 
-	    String job_id;
-	    String department_id;
+	    String hireDate; 
+	    String jobId;
+	    String departmentId;
 	    String salary;
 }

@@ -9,13 +9,13 @@
 	<!-- 반드시 bean을 추가 해줘야 라이브러리에 추가한 DB, Mybits 기능들을 쓸 수 있음! -->
 
 	<!-- DB(HicariCP) -->
-	
+
 
 	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 		<property name="driverClassName"
-			value="oracle.jdbc.driver.OracleDriver" />
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
 		<property name="jdbcUrl"
-			value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+			value="jdbc:log4jdbc:oracle:thin:@127.0.0.1:1521:xe" />
 		<property name="username" value="hr" />
 		<property name="password" value="hr" />
 	</bean>
@@ -24,14 +24,17 @@
 		destroy-method="close">
 		<constructor-arg ref="hikariConfig" />
 	</bean>
-	
-	<!-- Mybais -->
-	<!-- Mybatis sqlSessionFactory -->
+
+	<!-- mybatis -->
+	<!-- mybatis sqlSessionFactory -->
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		
+		<!-- mybatis 관련 설정 읽어들일 때 사용, classpath : scr/main/resources -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"/>
 	</bean>
 
-	<!-- mapper(인터페이스 + xml) scan -->	
+	<!-- mapper(인터페이스 + xml) scan -->
 	<mybatis-spring:scan base-package="com.yedam.java" />
 
 </beans>

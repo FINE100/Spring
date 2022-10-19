@@ -2,18 +2,20 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<!-- 별도 설정이 없었기 때문에 sql식으로 변수 설정 employee_id => 이렇게 해야 데이터를 찾아오므로! -->  
 <mapper namespace="com.yedam.java.emp.mapper.EmpMapper">
-	<select id="getEmp" parameterType="com.yedam.java.emp.service.EmpVO" 
-						resultType="com.yedam.java.emp.service.EmpVO">
-		SELECT employee_id,
-			   first_name,
-		 	   last_name,
- 		       email,
-		       hire_date,
-		       job_id,
-		       salary
-		FROM employees
-		WHERE employee_id = #{employee_id}
+	<select id="getEmp" parameterType="EmpVO" 
+						resultType="EmpVO">
+		SELECT EMPLOYEE_ID,
+			   FIRST_NAME,
+		 	   LAST_NAME,
+ 		       EMAIL,
+		       HIRE_DATE,
+		       JOB_ID,
+		       SALARY
+		FROM EMPLOYEES
+		WHERE EMPLOYEE_ID = #{employeeId}
 	</select>
 </mapper>
   

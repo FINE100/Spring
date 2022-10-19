@@ -21,10 +21,10 @@ public class EmpMapperTest {
 	@Test
 	public void getEmp() {
 		EmpVO vo = new EmpVO();
-		vo.setEmployee_id("100");
+		vo.setEmployeeId("100");
 		EmpVO findVO = empMapper.getEmp(vo);
-		System.out.println(findVO.getLast_name());
-		assertEquals(findVO.getLast_name(), "King");
+		System.out.println(findVO.getLastName());
+		assertEquals(findVO.getLastName(), "King");
 	}
 
 }
