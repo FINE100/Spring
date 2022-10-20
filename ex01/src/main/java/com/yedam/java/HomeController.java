@@ -33,7 +33,8 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
-		return "home";
+		// src/main/webapp/WEB-INF/views/home.jsp
+		return "home";  
 	}
 	
 }

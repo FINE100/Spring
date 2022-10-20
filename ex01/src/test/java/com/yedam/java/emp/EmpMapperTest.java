@@ -78,4 +78,12 @@ public class EmpMapperTest {
 		assertEquals(result, 1);
 	}
 	
+	@Test
+	public void empSelectOne() {
+		EmpVO empVO = new EmpVO();
+		empVO.setFirstName("Steven");
+		EmpVO selected = mapper.getEmp(empVO);
+		assertNotNull(selected);
+		
+	}
 }

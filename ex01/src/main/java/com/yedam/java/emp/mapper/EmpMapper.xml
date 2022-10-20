@@ -2,88 +2,105 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <!-- name space : Mapper.java의 패키지 명.클래스 명 -->
-  <mapper namespace="com.yedam.java.emp.mapper.EmpMapper">
-  
-  	 <!-- resultMap : mybatis 내에서 새로운 type 만듦 -->
-  	 <!-- 예외사항, 별칭 등의 상황에서 사용. 기준VO만들고 컬럼과 프로퍼티 매핑 -->
-  	 <resultMap type="EmpVO" id="empInfo">
-  	 <id column="employee_id" property="employeeId"/>
-  	 <result column="last_name" property="lastName"/>  	 
-  	 </resultMap>
-  	 
-  	  <!-- 전체조회 -->
-  	  <!-- id: mapper.java의 메서드 이름, resultType : VO (복수의 값), 
-  	  			List는 1건이더라도 돌아감. -->
-  	  <select id="getEmpList" resultType="EmpVO">
-  	  	SELECT * FROM EMPLOYEES
-  	  </select>
-  	  
-  	  <!-- 단건조회 -->
-  	  <!-- parameterType 쓰는 이유: xml만 봐서는 매개변수 정보 알수 없기 때문,  -->
-  	  <!-- resultType : java가 가진 type 가져오기 -->
-  	  <select id="getEmp" parameterType="EmpVO" resultType="EmpVO" >
-  	  	SELECT *
-  	  	FROM employees
-  	  	WHERE employee_id = #{employeeId} 
-  	  </select> 
-  	  
-  	  <!-- 등록 -->
-  	  <insert id="insertEmp" parameterType="EmpVO">
-  	   <!-- selectKey는 insert와 update의 하위요소임. delete는 같이 못씀 -->
-  	  		<!--keyProperty : Max(employee_id)+1 값 담아서 넘길 곳  -->
-  	  		<selectKey keyProperty="employeeId" resultType="Integer" order="BEFORE">
-  	  			SELECT MAX(employee_id)+1 FROM employees  	  			
-  	  		</selectKey>
-  	  		
-  	  	<!-- 컬럼명 안 써도 되나 mybatis 내에서는 쓰는 걸 권장함(관습적) -->  	  	  	  
-  	  	INSERT INTO employees
-  	  				(employee_id,
-  	  				 first_name,
-  	  				 last_name,
-  	  				 email,
-  	  				 hire_date,
-  	  				 job_id,
-  	  				 salary)
-  	  		VALUES( #{employeeId},
-  	  				#{firstName},
-  	  				#{lastName},
-  	  				#{email},
-  	  				sysdate,
-  	  				#{jobId},
-  	  				#{salary}
-  	  				)
-  	  </insert>
-  	  
-  	  <!-- 수정 : 연봉 10% 인상 -->
-  	  <update id="updateEmpSalary" parameterType="Integer">
-  	  		UPDATE employees
-  	  		SET salary = salary * 1.1
-  	  		WHERE employee_id = #{eId}
-  	  </update>
-  	  
-  	  <!-- Dynamic SQL -->
-  	  <!-- if test 에서 test는 자바의 영역 -->
-  	  <!-- 수정 : 사원정보를 넘겨받아 이름과 성, 이메일을 수정할 수 있음 -->
-  	  <update id="updateEmpInfo" parameterType="EmpVO">
-  	  		UPDATE employees
-  	  		  <set>
-  	  		  	<if test="firstName != null and !firstName.equals('')">
-  	  		  		first_name = #{firstName},  	  		  		
-  	  		  	</if>
-  	  		  	<if test="lastName != null and !lastName.equals('')">
-  	  		  		last_name = #{lastName},  	  		  		
-  	  		  	</if>  	  		  	
-  	  		  	<if test="email != null and !email.equals('')">
-  	  		  		email = #{email}  	  		  		
-  	  		  	</if>    		  	  	  		  	
-  	  		  </set>
-  	  		 WHERE employee_id = #{employeeId}
-  	  </update>
-  	 
-  	  <!-- 삭제 -->
-  	  <delete id="deleteEmpInfo" parameterType="Integer">
-  	  	DELETE FROM employees
-  	  	WHERE employee_id = #{employeeId}
-  	  </delete>
-  </mapper>
+<!-- name space : Mapper.java의 패키지 명.클래스 명 -->
+<mapper namespace="com.yedam.java.emp.mapper.EmpMapper">
+
+	<!-- resultMap : mybatis 내에서 새로운 type 만듦 -->
+	<!-- 예외사항, 별칭 등의 상황에서 사용. 기준VO만들고 컬럼과 프로퍼티 매핑 -->
+	<resultMap type="EmpVO" id="empInfo">
+		<id column="employee_id" property="employeeId" />
+		<result column="last_name" property="lastName" />
+	</resultMap>
+
+	<!-- 전체조회 -->
+	<!-- id: mapper.java의 메서드 이름, resultType : VO (복수의 값), List는 1건이더라도 돌아감. -->
+	<select id="getEmpList" resultType="EmpVO">
+		SELECT *
+		FROM EMPLOYEES
+	</select>
+
+	<!-- 단건조회 -->
+	<!-- parameterType 쓰는 이유: xml만 봐서는 매개변수 정보 알수 없기 때문, -->
+	<!-- resultType : java가 가진 type 가져오기 -->
+	<select id="getEmp" parameterType="EmpVO" resultType="EmpVO">
+		SELECT *
+		FROM employees		
+		
+		<!-- where + if 태그는 값이 비어있는 경우 해당 조건이 안 걸렸던 것처럼 조회됨. 
+			전체조회에서 사용하면 됨. (id, firstName 값 없이 조회할 경우 => sql only: select* from employees) -->
+		<where>
+			<if test="employeeId != 0">
+				employee_id = #{employeeId}
+			</if>
+			<if test="firstName != null and !firstName.equals('')">
+				AND first_name = #{firstName}
+			</if>
+		</where>
+
+	</select>
+
+	<!-- 등록 -->
+	<insert id="insertEmp" parameterType="EmpVO">
+		<!-- selectKey는 insert와 update의 하위요소임. delete는 같이 못씀 -->
+		<!--keyProperty : Max(employee_id)+1 값 담아서 넘길 곳 -->
+		<selectKey keyProperty="employeeId" resultType="Integer"
+			order="BEFORE">
+			SELECT MAX(employee_id)+1 FROM employees
+		</selectKey>
+
+		<!-- 컬럼명 안 써도 되나 mybatis 내에서는 쓰는 걸 권장함(관습적) -->
+		<!-- 마지막 컬럼에는 if문 쓰지 않기! 값이 없으면 그 전 컬럼의 콤마(,) 때문에 값 오류남-->
+		INSERT INTO employees
+		(employee_id,
+		first_name,
+		last_name,
+		email,
+		<if test="hireDate != null">
+		hire_date,
+		</if>
+		job_id,
+		salary)
+		VALUES( #{employeeId},
+		#{firstName},
+		#{lastName},
+		#{email},
+		<if test="hireDate != null">
+		sysdate,
+		</if>
+		#{jobId},
+		#{salary}
+		)
+	</insert>
+
+	<!-- 수정 : 연봉 10% 인상 -->
+	<update id="updateEmpSalary" parameterType="Integer">
+		UPDATE employees
+		SET salary = salary * 1.1
+		WHERE employee_id = #{eId}
+	</update>
+
+	<!-- Dynamic SQL -->
+	<!-- if test 에서 test는 자바의 영역 -->
+	<!-- 수정 : 사원정보를 넘겨받아 이름과 성, 이메일을 수정할 수 있음 -->
+	<update id="updateEmpInfo" parameterType="EmpVO">
+		UPDATE employees
+		<set>
+			<if test="firstName != null and !firstName.equals('')">
+				first_name = #{firstName},
+			</if>
+			<if test="lastName != null and !lastName.equals('')">
+				last_name = #{lastName},
+			</if>
+			<if test="email != null and !email.equals('')">
+				email = #{email}
+			</if>
+		</set>
+		WHERE employee_id = #{employeeId}
+	</update>
+
+	<!-- 삭제 -->
+	<delete id="deleteEmpInfo" parameterType="Integer">
+		DELETE FROM employees
+		WHERE employee_id = #{employeeId}
+	</delete>
+</mapper>
