@@ -25,7 +25,7 @@ public class EmpController {
 	@RequestMapping("/allList") //post
 	public String getEmpList(Model model) { 	
 		model.addAttribute("empInfoList", 
-				empService.selectAllEmp());
+								empService.selectAllEmp());
 		return "emp/empList"; 
 	}
 	
@@ -79,12 +79,12 @@ public class EmpController {
 	//delete
 	
 	@GetMapping("delete/{empId}") // 필드에 담기는 것이 아니라 empId, employeeId 어떤 걸 써도 무방
-	@ResponseBody
+	@ResponseBody // 주의 깊게 볼 것!! requestParam은 키를 붙여서 보내야함. @ResponseBody는 붙이지 않아도 됨.
 	public String empDelete(@PathVariable int empId) {
 		int result = empService.deleteEmpInfo(empId);
 		String message = null;
 		if(result == 1) {
-			message = "사원번호: "+empId+"가 삭제되었습니다.";
+			message = "사원번호: " + empId + "가 삭제되었습니다.";
 		}else {
 			message = "삭제 실패! 확인해주세요~!";
 		}

@@ -47,7 +47,7 @@
 						<td>${empInfo.jobId}</td>	
 						<td>${empInfo.salary}</td>
 						<td>${empInfo.departmentId}</td>
-						<td><button id="delete" name="delete">삭제</button></td> <!-- 여기에 ajax 걸기 -->
+						<td><button>삭제</button></td> <!-- 여기에 ajax 걸기 -->
 					</tr>
 				</c:forEach>				
 			</tbody>
@@ -63,24 +63,32 @@
 			alert(message);
 		}
 		
+
+		
 		
 		$('#dataList td').click(function(){
-			let empId = $(this).parent().attr('name');
+			let empId = $(this).parent().attr('name'); // closest() : 가장 가까운 태그를 '위로' 찾음
 			$('#input > input').val(empId);
 			$('#input').prop('action', 'info')
 					   .prop('method', 'get')
 					   .submit();
+		});
 		
-
+		
+		$('#dataList td > button').click(function(){
+			let empId = $(this).closest('tr').attr('name');	
 			$.ajax({
-				url : 'delete/' + empId,
+				url : 'delete/'+empId,
+				//경로 : delete?employeeId=207 => data 필드 쓰면 자동으로 이방식이 나옴.  
 				success : function(data){
-					console.log(data);
+					console.log(typeof data);
 				},
 				error: function(reject){
 					console.log(reject)
 				}
-			})
+			});
+			
+			return false // 이벤트가 전달되는 것을 막기 위해 씀
 			
 		});
 		

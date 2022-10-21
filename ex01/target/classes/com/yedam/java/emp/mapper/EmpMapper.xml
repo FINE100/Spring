@@ -17,6 +17,7 @@
 	<select id="getEmpList" resultType="EmpVO">
 		SELECT *
 		FROM EMPLOYEES
+		ORDER BY EMPLOYEE_ID
 	</select>
 
 	<!-- 단건조회 -->
