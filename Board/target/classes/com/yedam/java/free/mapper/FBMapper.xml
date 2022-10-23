@@ -2,6 +2,10 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+ 
+ <!-- imple 역할. mybatis가 인터페이스를 구현시켜줌  -->
   <mapper namespace="com.yedam.java.free.mapper.FBMapper"> <!-- ctrl + 패키지주소 눌러보기! 이동되면 정상 등록 -->
   	<!-- 입력될 게시글 번호 조회 -->
   	<!-- board_no 언더 하이픈 써줘야 마이바티스가 boardNo로 들고감 -->

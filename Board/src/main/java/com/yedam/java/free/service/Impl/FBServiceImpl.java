@@ -16,7 +16,7 @@ public class FBServiceImpl implements FBService {
 	
 	
 	@Autowired
-	FBMapper fbMapper;
+	FBMapper fbMapper; // mybatis 가 imple 실현시켜주므로.. ! 인터페이스 역할
 
 	@Override
 	public int getBoardNo() {
@@ -56,7 +56,7 @@ public class FBServiceImpl implements FBService {
 
 	@Override
 	public Map deleteBoardInfo(FBVO fbVO) {
-		Integer count = fbMapper.deleteBoard(fbVO.getBno());
+		int count = fbMapper.deleteBoard(fbVO.getBno());
 		return getResult(count, fbVO);
 	}
 	

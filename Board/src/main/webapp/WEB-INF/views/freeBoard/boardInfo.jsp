@@ -12,7 +12,7 @@
 	<table>
 		<tr>
 			<th>번호</th>
-			<td>${board.bno }</td>
+			<td><input type="number" name="bno" value="${board.bno }" readonly></td>
 		</tr>
 		<tr>
 			<th>제목</th>

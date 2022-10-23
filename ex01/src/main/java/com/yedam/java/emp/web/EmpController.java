@@ -77,10 +77,11 @@ public class EmpController {
 	}
 	
 	//delete
-	
+	// Get 방식에 데이터를 담아서 보내주는 방식({empId}를 담아서 보냄
 	@GetMapping("delete/{empId}") // 필드에 담기는 것이 아니라 empId, employeeId 어떤 걸 써도 무방
-	@ResponseBody // 주의 깊게 볼 것!! requestParam은 키를 붙여서 보내야함. @ResponseBody는 붙이지 않아도 됨.
+	@ResponseBody //(***) 주의 깊게 볼 것!! requestParam은 키를 붙여서 보내야함. @ResponseBody는 붙이지 않아도 됨.
 	public String empDelete(@PathVariable int empId) {
+		
 		int result = empService.deleteEmpInfo(empId);
 		String message = null;
 		if(result == 1) {

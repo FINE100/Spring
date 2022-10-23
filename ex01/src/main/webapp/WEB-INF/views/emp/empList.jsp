@@ -47,7 +47,7 @@
 						<td>${empInfo.jobId}</td>	
 						<td>${empInfo.salary}</td>
 						<td>${empInfo.departmentId}</td>
-						<td><button>삭제</button></td> <!-- 여기에 ajax 걸기 -->
+						<td><button value="${empInfo.employeeId }">삭제</button></td> <!-- 여기에 ajax 걸기 -->
 					</tr>
 				</c:forEach>				
 			</tbody>
@@ -81,14 +81,15 @@
 				url : 'delete/'+empId,
 				//경로 : delete?employeeId=207 => data 필드 쓰면 자동으로 이방식이 나옴.  
 				success : function(data){
-					console.log(typeof data);
+					alert(typeof data); // String 반환
 				},
 				error: function(reject){
-					console.log(reject)
+					alert(reject)
 				}
 			});
 			
-			return false // 이벤트가 전달되는 것을 막기 위해 씀
+			return false // click(evnet)에 걸린 return false는 페이지 이동을 막아줌(***) 
+			//event.stopPropagation -> 이벤트 다시 걸기로 처리도 가능   
 			
 		});
 		
