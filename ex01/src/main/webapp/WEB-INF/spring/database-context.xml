@@ -36,4 +36,9 @@
 
 	<!-- 어떤 패키지든, mapper(인터페이스+xml)을 스캔하겠다  -->
 	<mybatis-spring:scan base-package="com.yedam.java.**.mapper" />
+	
+	<!-- transcation setting -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
 </beans>
