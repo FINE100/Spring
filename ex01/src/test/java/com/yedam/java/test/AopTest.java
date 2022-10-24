@@ -30,7 +30,7 @@ public class AopTest {
 		myCat.printInfo(); // printInfo()는 this = 본인자신(구현클래스)로 구현되므로 AOP 생성 안됨. 
 						   // AOP는 인터페이스를 기반으로한 그림자 클래스로 돌아가는 것.
 		System.out.println("======================");
-		myCat.printData();
+		myCat.printData(); // printData()는 인터페이스 기반으로 구현되므로 그림자 클래스로 돌아감.
 	}
 }
 	
