@@ -68,7 +68,7 @@
 		</set>
 		WHERE employee_id = #{employeeId}
 	</update>
-	<delete id="deleteEmp" parameterType="Integer">
+	<delete id="deleteEmp" parameterType="String">
 		DELETE FROM employees
 		WHERE employee_id = #{employeeId}
 	</delete>
