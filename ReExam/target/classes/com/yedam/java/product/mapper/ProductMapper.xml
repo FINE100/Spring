@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.yedam.java.product.mapper.ProductMapper">
+ 	<!-- 상품번호 조회  -->
+ 	<select id="getProductId" resultType="ProductVO">
+ 		SELECT NVL(MAX(product_id),0)+1 as product_id 
+  		FROM product_tbl_10
+ 	</select>
+ 	<!-- 상품 등록 -->
+ 	<insert id="insertProduct" parameterType="ProductVO">
+ 		INSERT INTO product_tbl_10 (
+ 						product_id,
+ 						product_name,
+ 						product_price,
+ 						product_info,
+ 						product_date,
+ 						company,
+ 						manager_id
+ 					) VALUES (
+ 						#{productId},
+ 						#{productName},
+ 						#{productPrice},
+ 						#{productInfo},
+ 						#{productDate},
+ 						#{company},
+ 						#{managerId}
+ 								)
+ 	</insert>
+ 	<!-- 상품 전체 조회 -->
+ 	<select id="getProductList" resultType="ProductVO">
+ 	SELECT product_id, 
+ 		   product_name, 
+ 		   product_price, 
+ 		   (CASE WHEN manager_id = 'E201' THEN '김사원'
+           		 WHEN manager_id = 'E202' THEN '이대리'
+            END) AS manager_name,
+ 		   product_date, 
+ 		   company
+ 	FROM PRODUCT_TBL_10 
+ 	
+ 	</select>
+</mapper>
