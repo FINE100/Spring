@@ -47,4 +47,11 @@ public class BookController {
 		return "redirect: booklist"; // 도서목록조회로 보내버리기 
 	}
 	
+	// 도서 정보 수정
+	
+	// 대여현황 조회
+	@GetMapping("rentlist")
+	public String 
+	
+	
 }

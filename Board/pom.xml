@@ -8,15 +8,18 @@
 	<name>Board</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
-	
+
 	<properties>
 		<java-version>11</java-version>
 		<org.springframework-version>5.3.16</org.springframework-version>
 		<org.aspectj-version>1.9.0</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
-		<org.apache.tiles-version>3.0.8</org.apache.tiles-version>		
+		<org.apache.tiles-version>3.0.8</org.apache.tiles-version>
+		<!-- spring security = spring과 버전 다름 -->
+		<org.springframework-version>5.2.8.RELEASE</org.springframework-version>
+		<org.springframework.security-version>5.2.5.RELEASE</org.springframework.security-version>
 	</properties>
-	
+
 	<dependencies>
 		<!-- Spring -->
 		<dependency>
@@ -211,6 +214,22 @@
 			<version>${org.apache.tiles-version}</version>
 		</dependency>
 
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${org.springframework.security-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${org.springframework.security-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${org.springframework.security-version}</version>
+		</dependency>
 
 	</dependencies>
 	<build>
