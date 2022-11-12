@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- css 파일 같은 정적 컨텐츠는 체크하지 말라(none) -->
+	<security:http pattern="/css/**" security="none" />
+
+	<bean id="successHandler"
+		class="com.yedam.java.security.CustomLoginSuccessHandler" />
+	<security:http>
+		<!-- permitAll() : 아무나 접근 가능 -->
+		<security:intercept-url pattern="/top.jsp"
+			access="permitAll()" />
+		<security:intercept-url pattern="/login.jsp"
+			access="permitAll()" />
+		<security:intercept-url pattern="/login"
+			access="permitAll()" />
+
+		<!-- hasAuthority('ROLE_ADMIN') : admin은 Role_admin만 접근 -->
+		<security:intercept-url pattern="/admin/**"
+			access="hasAuthority('ROLE_ADMIN')" />
+
+		<!--isAuthenticated() 로그인 해야 접근가능 -->
+		<security:intercept-url pattern="/**"
+			access="isAuthenticated()" />
+
+		<!-- login logout 기본 top 페이지로 이동, 추가하면 그 쪽으로 이동함 -->
+		<!-- login-page : 내가 만든 로그인 페이지 이동 -->
+		<!-- username-parameter : login.jsp에서 설정해준 로그인 ID의 name -->
+		<security:form-login login-page="/login.jsp"
+			username-parameter="userId" login-processing-url="/login"
+			authentication-success-handler-ref="successHandler"
+			default-target-url="/top.jsp" />
+		<security:logout logout-url="/logout"
+			logout-success-url="/top.jsp" />
+
+		<!-- login 시 에러나는 경우 -->
+		<!-- error-page : jsp page 전환 바로 할때, herf : uri 연결할때 -->
+		<security:access-denied-handler
+			error-page="/accessDenied.jsp" />
+
+		<!-- security:csrf 부분 주석처리 또는 false 처리 => 인증 토큰을 보내야 페이지 보임. -->
+		<!-- <security:csrf disabled="true" /> -->
+	</security:http>
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<!-- database-context에 설정한 datasource id 넣기 -->
+			<!-- users-by-username-query : 사용자 id 체크 / authorities-by-username-query 
+				: role 체크 -->
+			<security:jdbc-user-service
+				data-source-ref="dataSource"
+				users-by-username-query="select LOGIN_ID, PASSWORD, 1
+ 										from T_USER
+										where LOGIN_ID = ?" 
+				authorities-by-username-query="select LOGIN_ID, ROLE_NAME
+ 											  from T_ROLE
+ 											  inner join T_USER_ROLE on T_ROLE.ID = T_USER_ROLE.ROLE_ID
+ 											  inner join T_USER on T_USER_ROLE.USER_ID = T_USER.ID
+ 											  where LOGIN_ID = ?" />
+ 		<security:password-encoder hash="bcrypt"/>	<!-- 암호화되었다는 뜻 -->								  
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>
