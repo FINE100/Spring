@@ -43,14 +43,14 @@
 	</filter>
 
 	<!-- security filter : servlet으로 가기 전 권한,조건 확인 -->
-	<filter>
+	<!--<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
-	<filter-mapping>
+	</filter>-->
+	<!-- <filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 	<!-- 하위 경로 검색을 위해서 url-pattern에 * 붙여줘야함. */ -->
 	<filter-mapping>
