@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>board_fetch</title>
+</head> 
+<body>
+    <ul id="board">
+
+    </ul>
+   <script>
+	// view 페이지가 같은 서버 안에 있어서 크로스 오리진 발생 안함. 
+        fetch("/java/freeBoard/ajax/list") 
+        .then(res => res.json())
+        .then(obj =>{
+            //제목 출력           
+            for( bd of obj)
+            board.innerHTML += `<li>${bd.title}</li>`
+        })
+   </script> 
+</body>
+</html>

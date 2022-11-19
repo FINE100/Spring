@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ 
+ 
+ <!-- imple 역할. mybatis가 인터페이스를 구현시켜줌  -->
+  <mapper namespace="com.yedam.java.free.mapper.FBMapper"> <!-- ctrl + 패키지주소 눌러보기! 이동되면 정상 등록 -->
+  	<!-- 입력될 게시글 번호 조회 -->
+  	<!-- board_no 언더 하이픈 써줘야 마이바티스가 boardNo로 들고감 -->
+  	<!-- 연산,함수 쓸 때는 별칭 꼭 적어주기(안적으면 필드값 인식 안돼서 게터 생성 안됨)-->
+  	<select id="getBoardNo" resultType="FBVO">
+  		SELECT (NVL(MAX(bno), 0)+1) AS bno 
+  		FROM board
+  	</select>
+  	
+  	<!-- 전체조회 -->
+  	<select id="getBoardList" resultType="FBVO">
+  		SELECT * FROM board ORDER BY bno
+  	</select>
+  	
+  	<!-- 단건조회 -->
+  	<select id="getBoardInfo" parameterType="FBVO" resultType="FBVO">
+  		SELECT bno,
+  			   title,
+  			   contents,
+  			   writer,
+  			   regdate,
+  			   updatedate,
+  			   image
+  		FROM board
+  		<where>
+  			<if test="writer != null and !writer.equals('')">
+  				writer = #{writer}  			
+  			</if>
+  			<if test="bno > 0">
+  				AND bno = #{bno}  			
+  			</if>
+  		</where>
+  	</select>
+  	
+  	<!-- 등록 -->
+  	<insert id="insertBoard" parameterType="FBVO">
+  		INSERT INTO board (
+  							bno	
+  							,title
+  							,contents
+  							,writer
+  							<if test="regdate != null">
+  							,regdate
+  							</if>
+  							,updatedate
+  							<if test="image != null">
+  							,image
+  							</if>
+  							)
+  					VALUES (
+  							#{bno}	
+  							,#{title}
+  							,#{contents}
+  							,#{writer}
+  							<if test="regdate != null">
+  							,#{regdate}
+  							</if>
+  							,#{updatedate}
+  							<if test="image != null">
+  							,#{image}
+  							</if>
+  							)		
+  	</insert>
+  	<!-- 수정 -->
+  	<update id="updateBoard" parameterType="FBVO">
+  		UPDATE board
+  		<set>
+  			<if test="title !=null and !title.equals('')">
+  			title = #{title},
+  			</if>
+  			<if test="contents !=null and !contents.equals('')">
+  			contents = #{contents},
+  			</if>
+  			<if test="image !=null and !image.equals('')">
+  			image = #{image},
+  			</if>
+  			<if test="updatedate != null">
+  			updatedate = #{updatedate}
+  			</if>
+  			<if test="updatedate == null">
+  			updatedate = sysdate
+  			</if>  			
+  		</set>
+  		WHERE bno = #{bno}
+  	</update>
+  	<!-- 삭제 -->
+  	<delete id="deleteBoard" parameterType="integer">
+  		DELETE FROM board
+  			WHERE bno = #{bno} 
+  			<!-- #{} 안에 param에 선언된 이름 넣기 -->
+  	</delete>
+  </mapper>
